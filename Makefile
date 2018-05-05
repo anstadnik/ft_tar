@@ -1,51 +1,32 @@
 .PHONY: clean clean_objs fclean re r g
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-ODIR = objs/
-SDIR = srcs/
-LDIR = libft/
-IDIR = includes/
-NAME = ft_tar
-LIB = $(LDIR)libft.a
-DLIB = $(LDIR)dlibft.a
-FILES = test.c
-OBJS = $(FILES:.c=.o)
 
-all: $(NAME)
+all:
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i;\
+		done\
 
-$(NAME): $(LIB) $(addprefix $(ODIR), $(OBJS))
-	@echo "\x1b[34m\nCompiling $@\x1b[0m"
-	$(CC) $(CFLAGS) -I$(IDIR) -o $@ $^
-
-$(LIB):
-	@echo "\x1b[35m\nCompiling $(notdir $@)\x1b[0m"
-	@$(MAKE) -C $(dir $@) $(notdir $@)
-	@echo "\x1b[35m\n$(notdir $@) compiled\x1b[0m"
-
-$(DLIB):
-	@echo "\x1b[35mCompiling libft with g flag\x1b[0m"
-	@$(MAKE) -C $(LDIR) g
-
-g: $(DLIB)
-	@echo "\x1b[34mCompiling $(NAME) with g flag\x1b[0m"
-	@$(CC) $(CFLAGS) -I$(IDIR) -g -o $(NAME) $(addprefix $(SDIR), $(FILES)) $(LDIR)dlibft.a
-
-$(addprefix $(ODIR), %.o): $(addprefix $(SDIR), %.c)
-	@printf "."
-	@$(CC) $(CFLAGS) -I$(IDIR) -c -o $@ $<
+g:
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i g;\
+		done\
 
 clean: clean_objs
-	@$(MAKE) -C $(LDIR) clean
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i clean;\
+		done\
+
 
 clean_objs:
-	@echo "\x1b[31mRemoving the object files of $(NAME)\x1b[0m"
-	@rm -f $(addprefix $(ODIR), $(OBJS))
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i clean_objs;\
+		done\
 
-fclean: clean_objs
-	@$(MAKE) -C $(LDIR) fclean
-	@echo "\x1b[31mRemoving the $(NAME)\x1b[0m"
-	@rm -rf $(NAME) $(NAME).dSYM
+fclean:
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i fclean;\
+		done\
 
 re:
-	@$(MAKE) fclean
-	@$(MAKE)
+	@for i in ex*/ libft; do\
+		$(MAKE) -C $$i clean;\
+		done\
