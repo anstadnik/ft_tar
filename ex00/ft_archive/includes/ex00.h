@@ -4,7 +4,7 @@
 
 typedef struct	s_tar
 {
-	char			filename[100];
+	unsigned char	filename[100];
 	unsigned long	filemode;
 	unsigned long	userid;
 	unsigned long	groupid;
