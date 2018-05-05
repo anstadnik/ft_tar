@@ -27,6 +27,6 @@ typedef enum
 
 
 void	ft_archive(char **args);
-void	ft_unarchive(char **args);
+void	ft_unarchive(char *args);
 
 #endif
