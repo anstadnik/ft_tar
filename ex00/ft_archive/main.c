@@ -31,7 +31,7 @@ t_tar	*create_structure(char *filename)
 	struct stat	st;
 	char		*tmp;
 
-	if (stat(filename, &st) < 0)
+	if (lstat(filename, &st) < 0)
 	{
 		error(filename);
 		return (NULL);
@@ -42,6 +42,7 @@ t_tar	*create_structure(char *filename)
 	node->userid = st.st_uid;
 	node->groupid = st.st_gid;
 	ft_asprintf(&tmp, "%hO", st.st_size);
+	ft_printf("sizeof: %d\n", sizeof(st.st_size));
 	ft_memcpy(node->size, tmp, 12);
 	ft_strdel(&tmp);
 	ft_asprintf(&tmp, "%hO", st.st_mtimespec);
@@ -50,6 +51,12 @@ t_tar	*create_structure(char *filename)
 	unsigned char *bytes = (unsigned char *) node;
 	for (int i = 0; i < sizeof(t_tar); i++)
 		node->checksum += bytes[i];
+	if (S_ISREG(st.st_mode))
+		node->link = 0;
+	else if (S_ISLNK(st.st_mode))
+		node->link = 2;
+	else
+		node->link = 1;
 	return (node);
 }
 
