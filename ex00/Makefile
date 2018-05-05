@@ -1,51 +1,27 @@
 .PHONY: clean clean_objs fclean re r g
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-ODIR = objs/
-SDIR = srcs/
-LDIR = ../libft/
-IDIR = includes/
-NAME = ex00
-LIB = $(LDIR)libft.a
-DLIB = $(LDIR)dlibft.a
-FILES = main.c
-OBJS = $(FILES:.c=.o)
 
-all: $(NAME)
+all:
+	$(MAKE) -C ft_archive;
+	$(MAKE) -C ft_unarchive;
 
-$(NAME): $(LIB) $(addprefix $(ODIR), $(OBJS))
-	@echo "\x1b[34m\nCompiling $@\x1b[0m"
-	$(CC) $(CFLAGS) -I$(IDIR) -o $@ $^
-
-$(LIB):
-	@echo "\x1b[35m\nCompiling $(notdir $@)\x1b[0m"
-	@$(MAKE) -C $(dir $@) $(notdir $@)
-	@echo "\x1b[35m\n$(notdir $@) compiled\x1b[0m"
-
-$(DLIB):
-	@echo "\x1b[35mCompiling libft with g flag\x1b[0m"
-	@$(MAKE) -C $(LDIR) g
-
-g: $(DLIB)
-	@echo "\x1b[34mCompiling $(NAME) with g flag\x1b[0m"
-	@$(CC) $(CFLAGS) -I$(IDIR) -g -o $(NAME) $(addprefix $(SDIR), $(FILES)) $(LDIR)dlibft.a
-
-$(addprefix $(ODIR), %.o): $(addprefix $(SDIR), %.c)
-	@printf "."
-	@$(CC) $(CFLAGS) -I$(IDIR) -c -o $@ $<
+g:
+	$(MAKE) -C ft_archive g;
+	$(MAKE) -C ft_unarchive g;
 
 clean: clean_objs
-	@$(MAKE) -C $(LDIR) clean
+	$(MAKE) -C ft_archive clean;
+	$(MAKE) -C ft_unarchive clean;
 
 clean_objs:
-	@echo "\x1b[31mRemoving the object files of $(NAME)\x1b[0m"
-	@rm -f $(addprefix $(ODIR), $(OBJS))
+	$(MAKE) -C ft_archive clean_objs;
+	$(MAKE) -C ft_unarchive clean_objs;
 
-fclean: clean_objs
-	@$(MAKE) -C $(LDIR) fclean
-	@echo "\x1b[31mRemoving the $(NAME)\x1b[0m"
-	@rm -rf $(NAME) $(NAME).dSYM
+fclean:
+	$(MAKE) -C ft_archive fclean;
+	$(MAKE) -C ft_unarchive fclean;
 
 re:
-	@$(MAKE) fclean
-	@$(MAKE)
+	$(MAKE) -C ft_archive re;
+	$(MAKE) -C ft_unarchive re;
+	
+.PHONY: clean clean_objs fclean re r g
