@@ -14,7 +14,6 @@ typedef struct	s_tar
 	char			checksum[8];
 	char			link;
 	char			linkname[100];
-	long			size_l;
 }				t_tar;
 
 typedef enum
