@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ex00.h"
 
 static int	get_digit(char c, int base)
 {
@@ -31,23 +31,6 @@ static int	get_digit(char c, int base)
 	return (-1);
 }
 
-/*
-** @brief      Control for overflow/underflow. If it occures, shrink number to
-**             corresponding LONG_MIN or LONG_MAX. Both long int and long long
-**             have sizeof() == 8, which is somehow unexpected.
-**
-**             Magic numbers:
-**
-**             922337203685477580 - LONG_MAX_BASE (without the last digit)
-**             9223372036854775807 - LONG_MAX
-** @param      res    The resource
-** @param      sign   The sign
-** @param      digit  The digit
-** @param      base   The base
-**
-** @return     True if overflow, False otherwise.
-*/
-
 static long	is_overflow(unsigned long res, int sign, int digit, int base)
 {
 	unsigned long	long_max_base;
@@ -63,43 +46,6 @@ static long	is_overflow(unsigned long res, int sign, int digit, int base)
 	}
 	return (0);
 }
-
-/*
-** @brief      Convert the string in str to a long value
-**
-**             The string may begin with an arbitrary amount of white space
-**             followed by a single optional '+' or '-' sign. If base is zero or
-**             16, the string may then include a '0x' prefix (base 16); if next
-**             char is 0, the number will be read in base 8. The remainder of
-**             the string is converted to a long, stopping at the first charated
-**             that is not valid int the given base.
-**
-**
-**             If endpty is not NULL, strtol() stores the address of the first
-**             invalid characted in *endptr. If there was no digits at all,
-**             strtol() stores the original value of str in *endptr. Thus, if
-**             *str != '\0' but **endptr is '\0' on return, the entire string
-**             was valid.
-**
-**             If an overflow or underflow occurs, the function return value is
-**             clumped to the LONG_MIN or LONG_MAX, correspondingly.
-**
-**             Since we're restricted in usage of external libraries, limits are
-**             hadrcoded:
-**
-**             32 bit compiler  |    64 bit compiler
-**	LONG_MIN     -2147483648    |  -9223372036854775808
-**	LONG_MAX      2147483647    |   9223372036854775807
-**
-**
-**
-** @param      str     The string
-** @param      endptr  The endptr
-** @param      base    The base
-**
-** @return     the result of the conversion, unless undeflow or overflow
-**             occurred
-*/
 
 long		ft_strtol(const char *str, char **endptr, int base)
 {

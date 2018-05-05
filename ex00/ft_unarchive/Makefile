@@ -8,7 +8,7 @@ IDIR = includes/
 NAME = ft_unarchive
 LIB = $(LDIR)libft.a
 DLIB = $(LDIR)dlibft.a
-FILES = main.c ft_unarchive.c
+FILES = ft_strtol.c ft_unarchive.c main.c
 OBJS = $(FILES:.c=.o)
 
 all: $(NAME) $(NAME)
