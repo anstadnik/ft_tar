@@ -57,6 +57,8 @@ t_tar	*create_structure(char *filename)
 		node->link = 2;
 	else
 		node->link = 1;
+	if (S_ISLNK(st.st_mode))
+		readlink(filename, node->linkname, 100);
 	return (node);
 }
 

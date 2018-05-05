@@ -13,6 +13,7 @@ typedef struct	s_tar
 	unsigned long	checksum;
 	char			link;
 	char			linkname[100];
+	char			pad[255];
 }				t_tar;
 
 typedef enum
